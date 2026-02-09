@@ -29,18 +29,9 @@ Wrong Studio is a modern, responsive portfolio website for an architecture and i
 
 ## Pages
 
-- **Home (index.html)** - Hero section with featured works
-- **Works** - Complete portfolio of projects
-- **About** - Studio information and team
-- **Contact** - Contact form and information
 
 ## Design Features
 
-- Responsive design (mobile-first approach)
-- Smooth animations and transitions
-- Modern typography with Inter font
-- High-contrast minimalist aesthetic
-- SEO optimized HTML structure
 
 ## Getting Started
 
@@ -58,17 +49,9 @@ Wrong Studio is a modern, responsive portfolio website for an architecture and i
 
 ## Technologies Used
 
-- HTML5
-- CSS3 (with CSS variables)
-- Vanilla JavaScript
-- Google Fonts (Inter)
 
 ## Browser Support
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
 
 ## License
 
@@ -77,3 +60,26 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Contact
 
 For inquiries, please use the contact form on the website or visit our contact page.
+
+A modern, responsive portfolio website template built with HTML, CSS, and JavaScript.
+
+**Features:**
+- Dynamic navbar and footer (JavaScript)
+- Responsive design for all devices
+- Image gallery with lightbox effect
+- Clean, modern layout
+- Easy customization
+
+**Usage:**
+1. Clone or download the repository.
+2. Open `index.html` in your browser.
+3. Customize content, images, and styles as needed.
+
+**Folder Structure:**
+- `index.html`, `about.html`, `contact.html`, `works.html`: Main pages
+- `css/style.css`: Main stylesheet
+- `js/navbar.js`, `js/footer.js`, `js/script.js`: JavaScript for dynamic elements and gallery
+- `assets/Images/`, `assets/logo/`, `assets/Screenshots/`: Images and assets
+
+**Credits:**
+Created by Wrong Studio. Free for personal and commercial use.
