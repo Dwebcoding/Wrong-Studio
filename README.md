@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Wrong Studio - Architecture Portfolio
 
 A contemporary architecture and interior design portfolio website showcasing minimalist and brutalist projects.
@@ -73,15 +74,6 @@ Wrong Studio is a modern, responsive portfolio website for an architecture and i
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Author
-
-Wrong Studio - Contemporary Architecture & Interior Design
-
 ## Contact
 
 For inquiries, please use the contact form on the website or visit our contact page.
-
----
-
-**Status:** Active Development  
-**Last Updated:** January 2026

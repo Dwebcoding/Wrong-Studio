@@ -1,3 +1,884 @@
+
+/* Reset e Variabili */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #1a1a1a;
+    --accent-color: #555555;
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+    --font-main: 'Inter', sans-serif;
+    --spacing: 2rem;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Navigazione */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 1000;
+    border-bottom: 1px solid #eee;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px; /* Modifica questo valore per ingrandire/rimpicciolire il logo */
+    width: auto;
+    display: block;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+}
+
+/* Hero Section */
+.hero {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 1rem;
+    /* Aggiunta immagine di sfondo */
+    position: relative; /* Necessario per posizionare l'overlay */
+    color: #ffffff; /* Testo bianco */
+    overflow: hidden; /* Fondamentale per l'effetto zoom */
+}
+
+/* Immagine di sfondo animata (Ken Burns Effect) */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+    position: relative; /* Necessario per posizionare l'overlay */
+    color: #ffffff; /* Testo bianco */
+    z-index: 0;
+    /* Parte zoomata (scale 1.2) e torna normale (scale 1) */
+    animation: kenBurns 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Overlay scuro per migliorare la leggibilità del testo */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Nero al 50% di opacità */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2; /* Porta il testo sopra l'overlay */
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #e0e0e0; /* Grigio molto chiaro per contrasto su sfondo scuro */
+    font-weight: 300;
+}
+
+/* Portfolio Grid */
+.portfolio-section {
+    padding: 4rem 5%;
+}
+
+.portfolio-section h2 {
+    font-weight: 300;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+}
+
+.gallery-grid {
+    display: grid;
+    /* Crea colonne responsive automaticamente */
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.project-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    height: 400px; /* Altezza fissa per uniformità */
+}
+
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: grayscale(20%); /* Leggero bianco e nero per eleganza */
+}
+
+.project-card:hover .gallery-img {
+    transform: scale(1.05);
+    filter: grayscale(0%);
+}
+
+/* Slider per immagini multiple */
+.slider-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    height: 100%;
+    width: 100%;
+    scrollbar-width: none; /* Firefox */
+}
+
+.slider-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+}
+
+.slider-wrapper .gallery-img {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+}
+
+/* Frecce di navigazione slider */
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.2rem;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease, background 0.3s ease;
+}
+
+.project-card:hover .slider-nav { opacity: 1; }
+.slider-nav:hover { background: #fff; }
+.slider-nav.prev { left: 0; }
+.slider-nav.next { right: 0; }
+
+/* Overlay al passaggio del mouse */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.project-card:hover .overlay {
+    opacity: 1;
+}
+
+.overlay h3 {
+    font-weight: 400;
+    font-size: 1.4rem;
+}
+
+.overlay p {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 4rem 0;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+}
+
+/* Developer Credits */
+.developer-credits {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.developer-credits a:hover {
+    color: var(--text-color);
+    background: rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.developer-credits i {
+    font-size: 1.1rem;
+}
+
+/* Lightbox (Modal) Styles */
+.lightbox {
+    display: none; 
+    position: fixed; 
+    z-index: 2000; 
+    padding-top: 60px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.9); 
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 1200px;
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    font-family: var(--font-main);
+}
+
+.close {
+    position: absolute;
+    top: 30px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Frecce navigazione Lightbox */
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 3rem;
+    padding: 0 1rem;
+    cursor: pointer;
+    z-index: 2001;
+    transition: background 0.3s;
+}
+
+.lightbox-nav:hover { background: rgba(0, 0, 0, 0.8); }
+.lightbox-nav.prev { left: 2%; }
+.lightbox-nav.next { right: 2%; }
+
+/* ========================================
+   RESPONSIVE MOBILE - Breakpoint 768px
+   ======================================== */
+@media (max-width: 768px) {
+    /* --- NAVIGAZIONE --- */
+    .navbar {
+        padding: 1rem 4%;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    .nav-links {
+        gap: 1.2rem;
+        font-size: 0.8rem;
+    }
+
+    .nav-links a {
+        font-size: 0.75rem;
+    }
+
+    /* --- HERO SECTION --- */
+    .hero {
+        height: 60vh;
+        padding: 0 1.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        line-height: 1.3;
+        margin-bottom: 0.8rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    /* --- PAGE HEADERS --- */
+    .page-header {
+        padding: 5rem 4% 1.5rem;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .page-header p {
+        font-size: 0.95rem;
+    }
+
+    /* --- PORTFOLIO GRID --- */
+    .portfolio-section {
+        padding: 3rem 4%;
+    }
+
+    .portfolio-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .project-card {
+        height: 300px;
+    }
+
+    /* --- PROJECT CARD OVERLAY --- */
+    .overlay {
+        padding: 1.5rem;
+    }
+
+    .overlay h3 {
+        font-size: 1.1rem;
+    }
+
+    .overlay p {
+        font-size: 0.85rem;
+    }
+
+    /* --- BUTTON CONTAINER (per prossimi bottoni GitHub/Visita) --- */
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: center;
+        width: 100%;
+    }
+
+    .button-group a,
+    .button-group button {
+        width: 100%;
+        max-width: 90%;
+        padding: 0.9rem 1.5rem;
+        text-align: center;
+        font-size: 0.95rem;
+    }
+
+    /* --- LIGHTBOX --- */
+    .lightbox {
+        padding-top: 40px;
+    }
+
+    .lightbox-content {
+        width: 90%;
+        max-height: 70vh;
+    }
+
+    #caption {
+        width: 90%;
+        font-size: 0.9rem;
+    }
+
+    .close {
+        top: 20px;
+        right: 20px;
+        font-size: 30px;
+    }
+
+    .lightbox-nav {
+        font-size: 2rem;
+        padding: 0 0.8rem;
+    }
+
+    .lightbox-nav.prev { left: 1%; }
+    .lightbox-nav.next { right: 1%; }
+
+    /* --- ABOUT SECTION --- */
+    .about-section {
+        padding: 2.5rem 4%;
+    }
+
+    .about-container {
+        gap: 2rem;
+    }
+
+    .about-image,
+    .about-text {
+        flex: 1 1 100%;
+    }
+
+    .about-text h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .about-text p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* --- CONTACT SECTION --- */
+    .contact-page-section {
+        padding: 2rem 4% 3rem;
+    }
+
+    .contact-container {
+        gap: 2rem;
+    }
+
+    .contact-info,
+    .contact-form-container {
+        flex: 1 1 100%;
+    }
+
+    .contact-info h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .contact-info p {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .map-container {
+        height: 300px;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+        padding: 2.5rem 4%;
+        font-size: 0.8rem;
+    }
+
+    footer p {
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+}
+
+/* ========================================
+   RESPONSIVE EXTRA SMALL - Breakpoint 480px
+   ======================================== */
+@media (max-width: 480px) {
+    /* --- NAVIGAZIONE --- */
+    .navbar {
+        padding: 0.8rem 3%;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .logo img {
+        height: 28px;
+    }
+
+    .nav-links {
+        gap: 1rem;
+        font-size: 0.7rem;
+    }
+
+    /* --- HERO --- */
+    .hero {
+        height: 50vh;
+        padding: 0 1rem;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    /* --- PAGE HEADER --- */
+    .page-header {
+        padding: 3.5rem 3% 1rem;
+    }
+
+    .page-header h1 {
+        font-size: 1.5rem;
+    }
+
+    /* --- PORTFOLIO --- */
+    .portfolio-section {
+        padding: 2rem 3%;
+    }
+
+    .project-card {
+        height: 250px;
+    }
+
+    .overlay {
+        padding: 1rem;
+    }
+
+    .overlay h3 {
+        font-size: 0.95rem;
+    }
+
+    /* --- BUTTON GROUP --- */
+    .button-group {
+        gap: 0.6rem;
+    }
+
+    .button-group a,
+    .button-group button {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+        padding: 2rem 3%;
+        font-size: 0.75rem;
+    }
+}
+
+/* ========================================
+   BUTTON STYLES - GitHub & Visit (Responsive)
+   ======================================== */
+
+/* Desktop: Flex row (affiancati) */
+.button-group {
+    display: flex;
+    flex-direction: row;
+    gap: 1.2rem;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-github,
+.btn-visit {
+    display: inline-block;
+    padding: 0.85rem 1.8rem;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1a1a1a;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 2px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-github:hover,
+.btn-visit:hover {
+    background: #fff;
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-github:active,
+.btn-visit:active {
+    transform: translateY(-1px);
+}
+
+/* ========================================
+   ANIMATION - Entrance/Interactions
+   ======================================== */
+
+/* Page Headers (for Works/About) */
+.page-header {
+    padding: 8rem 5% 2rem;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+}
+
+/* About Page Styles */
+.about-section {
+    padding: 4rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-image {
+    flex: 1 1 400px;
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    filter: grayscale(20%);
+}
+
+.about-text {
+    flex: 1 1 400px;
+}
+
+.about-text h2 {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+}
+
+.about-text p {
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+/* Contact Page Styles */
+.contact-page-section {
+    padding: 2rem 5% 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.contact-info, .contact-form-container {
+    flex: 1 1 400px;
+}
+
+.contact-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+
+.contact-info p {
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    background: #f9f9f9;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--text-color);
+    background: #fff;
+}
+
+.btn-submit {
+    background-color: var(--text-color);
+    color: #fff;
+    padding: 1rem 2rem;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: var(--accent-color);
+}
+
+.map-container {
+    width: 100%;
+    height: 450px;
+    background-color: #eee;
+    filter: grayscale(100%); /* Mappa in bianco e nero per coerenza stilistica */
+}
+
+/* --- ENTRANCE ANIMATIONS --- */
+
+/* 1. Intro Branding (Logo + Slide Up) */
+.intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #111;
+    z-index: 9999; /* Sopra a tutto, anche alla navbar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Scivola via verso l'alto dopo 2 secondi */
+    animation: slideUpReveal 1s cubic-bezier(0.7, 0, 0.3, 1) forwards 2s;
+}
+
+.intro-logo img {
+    width: 300px;
+    opacity: 0;
+    filter: invert(1);
+    animation: logoFadeInOut 1.8s ease-in-out forwards;
+}
+
+@keyframes slideUpReveal {
+    to { transform: translateY(-100%); }
+}
+
+@keyframes logoFadeInOut {
+    0% { opacity: 0; transform: scale(0.9); }
+    40% { opacity: 1; transform: scale(1); }
+    80% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.1); }
+}
+
+/* 2. Animazione del Testo Hero */
+/* Nascondiamo inizialmente il testo per farlo apparire dopo */
+.hero-content h1, 
+.hero-content p {
+    opacity: 0;
+    /* Parte leggermente più piccolo e in basso per un effetto zoom/entrata */
+    transform: translateY(20px) scale(0.95); 
+    animation: heroTextReveal 1.2s ease-out forwards;
+}
+
+.hero-content h1 { animation-delay: 2.3s; } /* Parte dopo che il sipario si è alzato */
+.hero-content p { animation-delay: 2.5s; }
+
+@keyframes heroTextReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 3. Ken Burns Effect (Zoom Immagine Sfondo) */
+@keyframes kenBurns {
+    0% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+=======
 /* Reset e Variabili */
 :root {
     --bg-color: #ffffff;
